@@ -1,0 +1,22 @@
+# Carpetas de compilacion de Visual Studio
+.vs/
+x64/
+x86/
+Debug/
+Release/
+*.ilk
+*.pdb
+*.obj
+*.exe
+*.exp
+*.lib
+*.tlog
+*.log
+
+# Archivos de usuario (config local del IDE, no se comparte)
+*.user
+*.suo
+
+# Carpetas intermedias que VS genera dentro del proyecto
+**/Debug/
+**/Release/
