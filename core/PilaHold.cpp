@@ -15,7 +15,7 @@ bool PilaHold::isEmpty() const {
 
 bool PilaHold::push(TipoPieza v) {
     if (tope != nullptr) {
-        return false; // ya esta ocupada, se respeta la capacidad de 1
+        return false; 
     }
     tope = new Nodo(v);
     return true;
@@ -24,7 +24,7 @@ bool PilaHold::push(TipoPieza v) {
 TipoPieza PilaHold::pop() {
     Nodo* victima = tope;
     TipoPieza valor = victima->dato;
-    tope = nullptr; // como la capacidad es 1, nunca hay un "siguiente" al que caer
+    tope = nullptr; 
     delete victima;
     return valor;
 }

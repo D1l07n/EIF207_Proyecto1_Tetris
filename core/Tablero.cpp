@@ -54,6 +54,65 @@ void Tablero::fijarPieza(const Pieza& p) {
     }
 }
 
+void Tablero::copiarEstado(int destino[BOARD_ROWS][BOARD_COLS]) const {
+    Fila* actualFila = inicio;
+    for (int f = 0; f < BOARD_ROWS && actualFila != nullptr; f++) {
+        for (int c = 0; c < BOARD_COLS; c++) {
+            destino[f][c] = actualFila->celdas[c];
+        }
+        actualFila = actualFila->sig;
+    }
+}
+
+void Tablero::restaurarEstado(const int origen[BOARD_ROWS][BOARD_COLS]) {
+    Fila* actualFila = inicio;
+    for (int f = 0; f < BOARD_ROWS && actualFila != nullptr; f++) {
+        for (int c = 0; c < BOARD_COLS; c++) {
+            actualFila->celdas[c] = origen[f][c];
+        }
+        actualFila = actualFila->sig;
+    }
+}
+
+void Tablero::reiniciar() {
+    Fila* actualFila = inicio;
+    while (actualFila != nullptr) {
+        for (int c = 0; c < BOARD_COLS; c++) {
+            actualFila->celdas[c] = CELDA_VACIA;
+        }
+        actualFila = actualFila->sig;
+    }
+}
+
+void Tablero::invertirFilas() {
+    
+    Fila* ant = nullptr;
+    Fila* actualFila = inicio;
+
+    while (actualFila != nullptr) {
+        Fila* siguienteFila = actualFila->sig;
+        actualFila->sig = ant;
+        ant = actualFila;
+        actualFila = siguienteFila;
+    }
+
+    inicio = ant;
+}
+
+void Tablero::eliminarCeldasDeTipo(TipoPieza tipo) {
+    int tipoComoInt = static_cast<int>(tipo);
+    Fila* actualFila = inicio;
+
+    while (actualFila != nullptr) {
+        for (int c = 0; c < BOARD_COLS; c++) {
+            if (actualFila->celdas[c] == tipoComoInt) {
+                actualFila->celdas[c] = CELDA_VACIA;
+            }
+        }
+        actualFila = actualFila->sig;
+    }
+}
+
 int Tablero::limpiarLineasCompletas() {
     
     int eliminadas = 0;

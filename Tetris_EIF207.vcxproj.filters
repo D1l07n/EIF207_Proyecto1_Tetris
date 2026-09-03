@@ -45,6 +45,12 @@
     <ClCompile Include="core\Colision.cpp">
       <Filter>core</Filter>
     </ClCompile>
+    <ClCompile Include="core\ListaDobleReplay.cpp">
+      <Filter>core</Filter>
+    </ClCompile>
+    <ClCompile Include="core\ColaEventos.cpp">
+      <Filter>core</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="config\Constants.h">
@@ -69,6 +75,18 @@
       <Filter>core</Filter>
     </ClInclude>
     <ClInclude Include="core\Colision.h">
+      <Filter>core</Filter>
+    </ClInclude>
+    <ClInclude Include="core\TipoMovimiento.h">
+      <Filter>core</Filter>
+    </ClInclude>
+    <ClInclude Include="core\ListaDobleReplay.h">
+      <Filter>core</Filter>
+    </ClInclude>
+    <ClInclude Include="core\TipoEvento.h">
+      <Filter>core</Filter>
+    </ClInclude>
+    <ClInclude Include="core\ColaEventos.h">
       <Filter>core</Filter>
     </ClInclude>
   </ItemGroup>

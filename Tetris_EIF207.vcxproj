@@ -145,8 +145,10 @@
     </Manifest>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="core\ColaEventos.cpp" />
     <ClCompile Include="core\ColaPiezas.cpp" />
     <ClCompile Include="core\Colision.cpp" />
+    <ClCompile Include="core\ListaDobleReplay.cpp" />
     <ClCompile Include="core\Pieza.cpp" />
     <ClCompile Include="core\PilaHold.cpp" />
     <ClCompile Include="core\Tablero.cpp" />
@@ -154,12 +156,16 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="config\Constants.h" />
+    <ClInclude Include="core\ColaEventos.h" />
     <ClInclude Include="core\ColaPiezas.h" />
     <ClInclude Include="core\Colision.h" />
     <ClInclude Include="core\Fila.h" />
+    <ClInclude Include="core\ListaDobleReplay.h" />
     <ClInclude Include="core\Pieza.h" />
     <ClInclude Include="core\PilaHold.h" />
     <ClInclude Include="core\Tablero.h" />
+    <ClInclude Include="core\TipoEvento.h" />
+    <ClInclude Include="core\TipoMovimiento.h" />
     <ClInclude Include="core\TipoPieza.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
