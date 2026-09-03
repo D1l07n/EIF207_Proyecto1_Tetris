@@ -30,10 +30,46 @@
     <ClCompile Include="Tetris_EIF207.cpp">
       <Filter>Archivos de origen</Filter>
     </ClCompile>
+    <ClCompile Include="core\Pieza.cpp">
+      <Filter>core</Filter>
+    </ClCompile>
+    <ClCompile Include="core\ColaPiezas.cpp">
+      <Filter>core</Filter>
+    </ClCompile>
+    <ClCompile Include="core\PilaHold.cpp">
+      <Filter>core</Filter>
+    </ClCompile>
+    <ClCompile Include="core\Tablero.cpp">
+      <Filter>core</Filter>
+    </ClCompile>
+    <ClCompile Include="core\Colision.cpp">
+      <Filter>core</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="config\Constants.h">
       <Filter>config</Filter>
+    </ClInclude>
+    <ClInclude Include="core\Pieza.h">
+      <Filter>core</Filter>
+    </ClInclude>
+    <ClInclude Include="core\TipoPieza.h">
+      <Filter>core</Filter>
+    </ClInclude>
+    <ClInclude Include="core\ColaPiezas.h">
+      <Filter>core</Filter>
+    </ClInclude>
+    <ClInclude Include="core\PilaHold.h">
+      <Filter>core</Filter>
+    </ClInclude>
+    <ClInclude Include="core\Fila.h">
+      <Filter>core</Filter>
+    </ClInclude>
+    <ClInclude Include="core\Tablero.h">
+      <Filter>core</Filter>
+    </ClInclude>
+    <ClInclude Include="core\Colision.h">
+      <Filter>core</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>
