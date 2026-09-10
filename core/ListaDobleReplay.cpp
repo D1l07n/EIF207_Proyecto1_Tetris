@@ -20,8 +20,7 @@ bool ListaDobleReplay::hayHistorial() const {
 }
 
 void ListaDobleReplay::registrarMovimiento(TipoMovimiento tipo, const Pieza& pieza, const Tablero* tableroSiColocar) {
-    // Si el jugador habia deshecho pasos, este movimiento nuevo
-    // descarta el historial "futuro" que quedo colgando.
+   
     if (actual != nullptr && actual->sig != nullptr) {
         eliminarDesde(actual->sig);
         actual->sig = nullptr;
@@ -71,16 +70,16 @@ void ListaDobleReplay::aplicarNodo(NodoReplay* nodo, Pieza& piezaActual, Tablero
     }
 }
 
-bool ListaDobleReplay::deshacer(Pieza& piezaActual, Tablero& tablero) {
+bool ListaDobleReplay::deshacer(Pieza& piezaActual, Tablero& tablero) {//...
     if (actual == nullptr) {
-        return false; // no hay nada que deshacer
+        return false; 
     }
 
     bool actualEraColocar = actual->tieneSnapshotTablero;
     NodoReplay* nodoAnterior = actual->ant;
 
     if (nodoAnterior == nullptr) {
-        // se deshace el primer movimiento -> vuelve al estado inicial
+        
         if (actualEraColocar) {
             tablero.reiniciar();
         }
@@ -88,7 +87,7 @@ bool ListaDobleReplay::deshacer(Pieza& piezaActual, Tablero& tablero) {
         return true;
     }
 
-    // Reconstruir la posicion de la pieza segun el nodo anterior
+
     Pieza reconstruida(nodoAnterior->tipoPieza);
     reconstruida.setPosicion(nodoAnterior->fila, nodoAnterior->columna);
     for (int i = 0; i < nodoAnterior->orientacion; i++) {

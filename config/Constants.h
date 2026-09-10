@@ -18,5 +18,8 @@ const std::string WINDOW_TITLE = "Tetris - EIF207";
 
 constexpr int FPS = 60;
 
+constexpr float RETRASO_INICIAL_MOVIMIENTO = 0.2f;
+constexpr float INTERVALO_MOVIMIENTO_LATERAL = 0.05f;
+constexpr float INTERVALO_SOFT_DROP = 0.05f;
 
 constexpr float FALL_INTERVAL_INITIAL = 1.0f; // segundos entre cada caida de fila

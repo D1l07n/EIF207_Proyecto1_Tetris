@@ -2,13 +2,8 @@
 // NOTA: existe una formula generica para rotar 90 grados una matriz NxN:
 //   nuevaFila = columna
 //   nuevaColumna = (N - 1) - fila
-// (aplicada 4 veces se vuelve a la orientacion original: 0->90->180->270->0)
-//
-// No la usamos porque el enunciado pide "4 orientaciones, revisar/confirmar,
-// PRECALCULADAS" -> se espera una tabla de datos fija, no un calculo en
-// tiempo real. Ademas la formula pura descentra visualmente algunas piezas
-// (ej. la I) dentro de su casillero, por eso el Tetris real tambien usa
-// tablas ajustadas a mano en vez de la formula pura.
+// (aplicada 4 veces se vuelve a la orientacion original: 0->90->180->270->0).......
+
 const Coordenada Pieza::FORMAS[CANTIDAD_TIPOS_PIEZA][4][4] = {
     // I
     {

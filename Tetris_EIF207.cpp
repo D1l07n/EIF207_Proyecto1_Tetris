@@ -1,5 +1,7 @@
 #include <SFML/Graphics.hpp>
 #include "config/Constants.h"
+#include "game/Game.h"
+
 
 int main() {
     sf::RenderWindow ventana(
@@ -8,15 +10,14 @@ int main() {
     );
     ventana.setFramerateLimit(FPS);
 
+    Game game;
+
     while (ventana.isOpen()) {
-        sf::Event evento;
-        while (ventana.pollEvent(evento)) {
-            if (evento.type == sf::Event::Closed) {
-                ventana.close();
-            }
-        }
+        game.procesarEventos(ventana);
+        game.actualizar();
 
         ventana.clear(sf::Color::Black);
+        game.dibujar(ventana);
         ventana.display();
     }
 

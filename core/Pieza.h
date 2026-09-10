@@ -30,7 +30,7 @@ public:
 
 private:
     TipoPieza tipo;
-    int orientacion; // 0 a 3
+    int orientacion; 
     int filaBase;
     int columnaBase;
 

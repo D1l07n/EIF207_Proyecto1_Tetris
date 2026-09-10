@@ -25,6 +25,9 @@
     <Filter Include="game">
       <UniqueIdentifier>{7ce65c46-7c5d-42bb-81f0-27d76bae4e77}</UniqueIdentifier>
     </Filter>
+    <Filter Include="assets">
+      <UniqueIdentifier>{f9bab724-375c-4cb4-8ac8-29093170fbe0}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Tetris_EIF207.cpp">
@@ -50,6 +53,15 @@
     </ClCompile>
     <ClCompile Include="core\ColaEventos.cpp">
       <Filter>core</Filter>
+    </ClCompile>
+    <ClCompile Include="render\TableroRenderer.cpp">
+      <Filter>render</Filter>
+    </ClCompile>
+    <ClCompile Include="render\PiezaRenderer.cpp">
+      <Filter>render</Filter>
+    </ClCompile>
+    <ClCompile Include="game\Game.cpp">
+      <Filter>game</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -88,6 +100,18 @@
     </ClInclude>
     <ClInclude Include="core\ColaEventos.h">
       <Filter>core</Filter>
+    </ClInclude>
+    <ClInclude Include="render\TableroRenderer.h">
+      <Filter>render</Filter>
+    </ClInclude>
+    <ClInclude Include="render\ColorPieza.h">
+      <Filter>render</Filter>
+    </ClInclude>
+    <ClInclude Include="render\PiezaRenderer.h">
+      <Filter>render</Filter>
+    </ClInclude>
+    <ClInclude Include="game\Game.h">
+      <Filter>game</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

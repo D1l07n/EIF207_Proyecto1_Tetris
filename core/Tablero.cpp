@@ -124,7 +124,7 @@ int Tablero::limpiarLineasCompletas() {
             Fila* victima = actual;
 
             if (anterior == nullptr) {
-                inicio = actual->sig; // la victima era la primera fila
+                inicio = actual->sig; 
             }
             else {
                 anterior->sig = actual->sig;

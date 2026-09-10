@@ -19,7 +19,7 @@ private:
 
     Nodo* inicio;
     Nodo* final;
-    int cantidadActual;   // evita tener que recorrer para saber cuantas hay
+    int cantidadActual;  
 
     void encolar(TipoPieza v);
     void generarYEncolarBolsa();
