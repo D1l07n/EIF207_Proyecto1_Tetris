@@ -19,6 +19,13 @@ bool ListaDobleReplay::hayHistorial() const {
     return inicio != nullptr;
 }
 
+void ListaDobleReplay::establecerEstadoInicial(const Pieza& piezaInicial) {
+    tipoPiezaInicial = piezaInicial.getTipo();
+    filaInicial = piezaInicial.getFila();
+    columnaInicial = piezaInicial.getColumna();
+    orientacionInicial = piezaInicial.getOrientacion();
+}
+
 void ListaDobleReplay::registrarMovimiento(TipoMovimiento tipo, const Pieza& pieza, const Tablero* tableroSiColocar) {
    
     if (actual != nullptr && actual->sig != nullptr) {
@@ -78,14 +85,24 @@ bool ListaDobleReplay::deshacer(Pieza& piezaActual, Tablero& tablero) {//...
     bool actualEraColocar = actual->tieneSnapshotTablero;
     NodoReplay* nodoAnterior = actual->ant;
 
-    if (nodoAnterior == nullptr) {
+    
         
-        if (actualEraColocar) {
-            tablero.reiniciar();
+        if (nodoAnterior == nullptr) {
+            if (actualEraColocar) {
+                tablero.reiniciar();
+            }
+
+            Pieza reconstruida(tipoPiezaInicial);
+            reconstruida.setPosicion(filaInicial, columnaInicial);
+            for (int i = 0; i < orientacionInicial; i++) {
+                reconstruida.rotar();
+            }
+            piezaActual = reconstruida; 
+
+            actual = nullptr;
+            return true;
         }
-        actual = nullptr;
-        return true;
-    }
+    
 
 
     Pieza reconstruida(nodoAnterior->tipoPieza);

@@ -6,6 +6,7 @@ Game::Game()
     esperandoRetrasoIzquierda(true), esperandoRetrasoDerecha(true)
 {
     piezaActual.setPosicion(0, (BOARD_COLS / 2) - 2);
+    historial.establecerEstadoInicial(piezaActual);
 }
 
 void Game::generarNuevaPieza() {
@@ -20,6 +21,7 @@ void Game::generarNuevaPieza() {
 
 void Game::despuesDeFijar() {
     tablero.limpiarLineasCompletas();
+    historial.registrarMovimiento(TipoMovimiento::COLOCAR, piezaActual, &tablero);
     generarNuevaPieza();
 }
 
@@ -33,10 +35,41 @@ void Game::moverPieza(int deltaColumna, bool& esperandoRetraso) {
     float limite = esperandoRetraso ? RETRASO_INICIAL_MOVIMIENTO : INTERVALO_MOVIMIENTO_LATERAL;
 
     if (tiempoTranscurrido >= limite) {
-        Colision::moverSiEsPosible(piezaActual, tablero, 0, deltaColumna);
+        bool seMovio = Colision::moverSiEsPosible(piezaActual, tablero, 0, deltaColumna);
+        if (seMovio) {
+            TipoMovimiento tipo = (deltaColumna < 0) ? TipoMovimiento::MOVER_IZQUIERDA : TipoMovimiento::MOVER_DERECHA;
+            historial.registrarMovimiento(tipo, piezaActual, nullptr);
+        }
         relojRetrasoMovimiento.restart();
-        esperandoRetraso = false; 
+        esperandoRetraso = false;
     }
+}
+
+void Game::ejecutarHold() {
+    if (pilaHold.isEmpty()) {
+        pilaHold.push(piezaActual.getTipo());
+        generarNuevaPieza();
+    }
+    else {
+        TipoPieza guardada = pilaHold.pop();
+        pilaHold.push(piezaActual.getTipo());
+        piezaActual = Pieza(guardada);
+        piezaActual.setPosicion(0, (BOARD_COLS / 2) - 2);
+
+        if (Colision::esGameOver(piezaActual, tablero)) {
+            juegoTerminado = true;
+        }
+    }
+}
+
+void Game::deshacer() {
+    if (juegoTerminado) return;
+    historial.deshacer(piezaActual, tablero);
+}
+
+void Game::rehacer() {
+    if (juegoTerminado) return;
+    historial.rehacer(piezaActual, tablero);
 }
 
 void Game::procesarEventos(sf::RenderWindow& ventana) {
@@ -49,24 +82,40 @@ void Game::procesarEventos(sf::RenderWindow& ventana) {
         if (juegoTerminado) continue;
 
         if (evento.type == sf::Event::KeyPressed) {
-          
             if (evento.key.code == sf::Keyboard::Left || evento.key.code == sf::Keyboard::A) {
-                Colision::moverSiEsPosible(piezaActual, tablero, 0, -1);
+                bool seMovio = Colision::moverSiEsPosible(piezaActual, tablero, 0, -1);
+                if (seMovio) {
+                    historial.registrarMovimiento(TipoMovimiento::MOVER_IZQUIERDA, piezaActual, nullptr);
+                }
                 esperandoRetrasoIzquierda = true;
                 relojRetrasoMovimiento.restart();
             }
             else if (evento.key.code == sf::Keyboard::Right || evento.key.code == sf::Keyboard::D) {
-                Colision::moverSiEsPosible(piezaActual, tablero, 0, 1);
+                bool seMovio = Colision::moverSiEsPosible(piezaActual, tablero, 0, 1);
+                if (seMovio) {
+                    historial.registrarMovimiento(TipoMovimiento::MOVER_DERECHA, piezaActual, nullptr);
+                }
                 esperandoRetrasoDerecha = true;
                 relojRetrasoMovimiento.restart();
             }
-            
             else if (evento.key.code == sf::Keyboard::Up || evento.key.code == sf::Keyboard::Q) {
-                Colision::rotarSiEsPosible(piezaActual, tablero);
+                bool roto = Colision::rotarSiEsPosible(piezaActual, tablero);
+                if (roto) {
+                    historial.registrarMovimiento(TipoMovimiento::ROTAR, piezaActual, nullptr);
+                }
             }
             else if (evento.key.code == sf::Keyboard::Space) {
-                Colision::hardDrop(piezaActual, tablero);
+                Colision::hardDrop(piezaActual, tablero); 
                 despuesDeFijar();
+            }
+            else if (evento.key.code == sf::Keyboard::C) {
+                ejecutarHold();
+            }
+            else if (evento.key.code == sf::Keyboard::Z) {
+                deshacer();
+            }
+            else if (evento.key.code == sf::Keyboard::X) {
+                rehacer();
             }
         }
     }
@@ -87,11 +136,15 @@ void Game::actualizar() {
 
     bool abajo = sf::Keyboard::isKeyPressed(sf::Keyboard::Down) || sf::Keyboard::isKeyPressed(sf::Keyboard::S);
     if (abajo && relojSoftDrop.getElapsedTime().asSeconds() >= INTERVALO_SOFT_DROP) {
-        if (!Colision::moverSiEsPosible(piezaActual, tablero, 1, 0)) {
+        bool bajo = Colision::moverSiEsPosible(piezaActual, tablero, 1, 0);
+        if (bajo) {
+            historial.registrarMovimiento(TipoMovimiento::BAJAR, piezaActual, nullptr);
+        }
+        else {
             fijarYAvanzar();
         }
         relojSoftDrop.restart();
-        relojCaida.restart(); 
+        relojCaida.restart();
     }
 
     if (relojCaida.getElapsedTime().asSeconds() >= FALL_INTERVAL_INITIAL) {

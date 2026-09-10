@@ -25,6 +25,8 @@ public:
 
     bool hayHistorial() const;
 
+    void establecerEstadoInicial(const Pieza& piezaInicial);
+
 private:
     struct NodoReplay {
         TipoMovimiento tipo;
@@ -48,4 +50,9 @@ private:
 
     void aplicarNodo(NodoReplay* nodo, Pieza& piezaActual, Tablero& tablero) const;
     void eliminarDesde(NodoReplay* nodo);
+
+    TipoPieza tipoPiezaInicial; 
+    int filaInicial;
+    int columnaInicial;
+    int orientacionInicial;
 };
