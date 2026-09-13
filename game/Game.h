@@ -5,6 +5,8 @@
 #include "../core/PilaHold.h"
 #include "../core/ListaDobleReplay.h"
 #include "../core/TipoMovimiento.h"
+#include "../core/ColaEventos.h"
+#include "../core/TipoEvento.h"
 #include "../core/Pieza.h"
 #include "../core/Colision.h"
 #include "../render/TableroRenderer.h"
@@ -23,6 +25,7 @@ private:
     ColaPiezas colaPiezas;
     PilaHold pilaHold;
     ListaDobleReplay historial;
+    ColaEventos colaEventos;
     Pieza piezaActual;
 
     TableroRenderer tableroRenderer;
@@ -31,10 +34,15 @@ private:
     sf::Clock relojCaida;
     sf::Clock relojRetrasoMovimiento;
     sf::Clock relojSoftDrop;
+    sf::Clock relojPartida; 
 
     bool esperandoRetrasoIzquierda;
     bool esperandoRetrasoDerecha;
+    bool proximaPiezaDorada;
+    bool proximaPiezaBomba;
     bool juegoTerminado;
+    int puntaje;
+    float finPuntosDobles;
 
     void generarNuevaPieza();
     void despuesDeFijar();
@@ -43,4 +51,8 @@ private:
     void ejecutarHold();
     void deshacer();
     void rehacer();
+    void procesarEventosProgramados();
+    void aplicarEfectoEvento(TipoEvento tipo);
+    void programarEventosIniciales();
+    bool puntosDoblesActivos() const;
 };

@@ -21,6 +21,8 @@ public:
 
     void invertirFilas();
 
+   
+
     void eliminarCeldasDeTipo(TipoPieza tipo);
 
     int limpiarLineasCompletas();
@@ -31,4 +33,6 @@ private:
     Fila* inicio; 
 
     Fila* obtenerFila(int indice) const;
+
+    
 };

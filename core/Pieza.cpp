@@ -1,8 +1,4 @@
 #include "Pieza.h"
-// NOTA: existe una formula generica para rotar 90 grados una matriz NxN:
-//   nuevaFila = columna
-//   nuevaColumna = (N - 1) - fila
-// (aplicada 4 veces se vuelve a la orientacion original: 0->90->180->270->0).......
 
 const Coordenada Pieza::FORMAS[CANTIDAD_TIPOS_PIEZA][4][4] = {
     // I
@@ -96,3 +92,8 @@ void Pieza::obtenerCeldasSiRota(Coordenada celdas[4]) const {
 void Pieza::rotar() {
     orientacion = (orientacion + 1) % 4;
 }
+
+void Pieza::marcarDorada() { dorada = true; }
+void Pieza::marcarBomba() { bomba = true; }
+bool Pieza::esPiezaDorada() const { return dorada; }
+bool Pieza::esPiezaBomba() const { return bomba; }

@@ -8,7 +8,7 @@ namespace Colision {
 
         for (int i = 0; i < 4; i++) {
             if (tablero.celdaOcupada(celdas[i].fila, celdas[i].columna)) {
-				return false; // fuera del tablero o celda ya ocupada verifica dos condiciones a la vez..........
+				return false; 
             }
         }
         return true;

@@ -14,3 +14,7 @@ inline sf::Color obtenerColorPieza(TipoPieza tipo) {
     default: return sf::Color::White;
     }
 }
+
+inline sf::Color colorDorado() {
+    return sf::Color(255, 200, 0); // dorado, mas anaranjado/brillante que el amarillo normal de la O
+}

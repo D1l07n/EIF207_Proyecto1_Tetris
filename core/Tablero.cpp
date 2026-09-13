@@ -99,6 +99,8 @@ void Tablero::invertirFilas() {
     inicio = ant;
 }
 
+
+
 void Tablero::eliminarCeldasDeTipo(TipoPieza tipo) {
     int tipoComoInt = static_cast<int>(tipo);
     Fila* actualFila = inicio;

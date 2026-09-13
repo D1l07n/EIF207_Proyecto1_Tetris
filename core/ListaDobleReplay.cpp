@@ -77,7 +77,7 @@ void ListaDobleReplay::aplicarNodo(NodoReplay* nodo, Pieza& piezaActual, Tablero
     }
 }
 
-bool ListaDobleReplay::deshacer(Pieza& piezaActual, Tablero& tablero) {//...
+bool ListaDobleReplay::deshacer(Pieza& piezaActual, Tablero& tablero) {
     if (actual == nullptr) {
         return false; 
     }

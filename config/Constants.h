@@ -22,4 +22,14 @@ constexpr float RETRASO_INICIAL_MOVIMIENTO = 0.2f;
 constexpr float INTERVALO_MOVIMIENTO_LATERAL = 0.05f;
 constexpr float INTERVALO_SOFT_DROP = 0.05f;
 
-constexpr float FALL_INTERVAL_INITIAL = 1.0f; // segundos entre cada caida de fila
+constexpr float FALL_INTERVAL_INITIAL = 1.0f; 
+
+
+constexpr float TIEMPO_EVENTO_DORADA_INICIAL = 20.0f;
+constexpr float TIEMPO_EVENTO_DORADA_REPETICION = 60.0f;
+constexpr float TIEMPO_EVENTO_BOMBA_INICIAL = 40.0f;
+constexpr float TIEMPO_EVENTO_BOMBA_REPETICION = 90.0f;
+constexpr float TIEMPO_EVENTO_PUNTOS_DOBLES_INICIAL = 60.0f;
+constexpr float TIEMPO_EVENTO_PUNTOS_DOBLES_REPETICION = 120.0f;
+constexpr float DURACION_PUNTOS_DOBLES = 30.0f;
+constexpr int PUNTOS_BONUS_DORADA = 500;

@@ -3,10 +3,23 @@
 
 Game::Game()
     : piezaActual(colaPiezas.desencolar()), juegoTerminado(false),
-    esperandoRetrasoIzquierda(true), esperandoRetrasoDerecha(true)
+    esperandoRetrasoIzquierda(true), esperandoRetrasoDerecha(true),
+    proximaPiezaDorada(false), proximaPiezaBomba(false), puntaje(0),
+    finPuntosDobles(-1.0f)
 {
     piezaActual.setPosicion(0, (BOARD_COLS / 2) - 2);
     historial.establecerEstadoInicial(piezaActual);
+    programarEventosIniciales();
+}
+
+void Game::programarEventosIniciales() {
+    colaEventos.insertar(TipoEvento::PIEZA_DORADA, TIEMPO_EVENTO_DORADA_INICIAL);
+    colaEventos.insertar(TipoEvento::PIEZA_BOMBA, TIEMPO_EVENTO_BOMBA_INICIAL);
+    colaEventos.insertar(TipoEvento::PUNTOS_DOBLES, TIEMPO_EVENTO_PUNTOS_DOBLES_INICIAL);
+}
+
+bool Game::puntosDoblesActivos() const {
+    return finPuntosDobles >= 0.0f && relojPartida.getElapsedTime().asSeconds() < finPuntosDobles;
 }
 
 void Game::generarNuevaPieza() {
@@ -14,14 +27,35 @@ void Game::generarNuevaPieza() {
     piezaActual = Pieza(tipo);
     piezaActual.setPosicion(0, (BOARD_COLS / 2) - 2);
 
+    if (proximaPiezaDorada) {
+        piezaActual.marcarDorada();
+        proximaPiezaDorada = false;
+    }
+    else if (proximaPiezaBomba) {
+        piezaActual.marcarBomba();
+        proximaPiezaBomba = false;
+    }
+
     if (Colision::esGameOver(piezaActual, tablero)) {
         juegoTerminado = true;
     }
 }
 
 void Game::despuesDeFijar() {
+    if (piezaActual.esPiezaDorada()) {
+        int puntos = PUNTOS_BONUS_DORADA;
+        if (puntosDoblesActivos()) {
+            puntos *= 2;
+        }
+        puntaje += puntos;
+    }
+    else if (piezaActual.esPiezaBomba()) {
+        tablero.eliminarCeldasDeTipo(piezaActual.getTipo());
+    }
+
     tablero.limpiarLineasCompletas();
     historial.registrarMovimiento(TipoMovimiento::COLOCAR, piezaActual, &tablero);
+    procesarEventosProgramados();
     generarNuevaPieza();
 }
 
@@ -72,6 +106,36 @@ void Game::rehacer() {
     historial.rehacer(piezaActual, tablero);
 }
 
+void Game::aplicarEfectoEvento(TipoEvento tipo) {
+    float tiempoActual = relojPartida.getElapsedTime().asSeconds();
+
+    switch (tipo) {
+    case TipoEvento::PIEZA_DORADA:
+        proximaPiezaDorada = true;
+        colaEventos.insertar(TipoEvento::PIEZA_DORADA, tiempoActual + TIEMPO_EVENTO_DORADA_REPETICION);
+        break;
+
+    case TipoEvento::PIEZA_BOMBA:
+        proximaPiezaBomba = true;
+        colaEventos.insertar(TipoEvento::PIEZA_BOMBA, tiempoActual + TIEMPO_EVENTO_BOMBA_REPETICION);
+        break;
+
+    case TipoEvento::PUNTOS_DOBLES:
+        finPuntosDobles = tiempoActual + DURACION_PUNTOS_DOBLES;
+        colaEventos.insertar(TipoEvento::PUNTOS_DOBLES, tiempoActual + TIEMPO_EVENTO_PUNTOS_DOBLES_REPETICION);
+        break;
+    }
+}
+
+void Game::procesarEventosProgramados() {
+    float tiempoActual = relojPartida.getElapsedTime().asSeconds();
+
+    while (!colaEventos.isEmpty() && colaEventos.hayEventoListo(tiempoActual)) {
+        TipoEvento tipo = colaEventos.extraerProximo();
+        aplicarEfectoEvento(tipo);
+    }
+}
+
 void Game::procesarEventos(sf::RenderWindow& ventana) {
     sf::Event evento;
     while (ventana.pollEvent(evento)) {
@@ -105,7 +169,7 @@ void Game::procesarEventos(sf::RenderWindow& ventana) {
                 }
             }
             else if (evento.key.code == sf::Keyboard::Space) {
-                Colision::hardDrop(piezaActual, tablero); 
+                Colision::hardDrop(piezaActual, tablero);
                 despuesDeFijar();
             }
             else if (evento.key.code == sf::Keyboard::C) {
@@ -123,6 +187,7 @@ void Game::procesarEventos(sf::RenderWindow& ventana) {
 
 void Game::actualizar() {
     if (juegoTerminado) return;
+
 
     bool izquierda = sf::Keyboard::isKeyPressed(sf::Keyboard::Left) || sf::Keyboard::isKeyPressed(sf::Keyboard::A);
     bool derecha = sf::Keyboard::isKeyPressed(sf::Keyboard::Right) || sf::Keyboard::isKeyPressed(sf::Keyboard::D);
