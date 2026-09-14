@@ -153,6 +153,8 @@
     <ClCompile Include="core\PilaHold.cpp" />
     <ClCompile Include="core\Tablero.cpp" />
     <ClCompile Include="game\Game.cpp" />
+    <ClCompile Include="render\GestorTexturas.cpp" />
+    <ClCompile Include="render\HUD.cpp" />
     <ClCompile Include="render\PiezaRenderer.cpp" />
     <ClCompile Include="render\TableroRenderer.cpp" />
     <ClCompile Include="Tetris_EIF207.cpp" />
@@ -171,8 +173,10 @@
     <ClInclude Include="core\TipoMovimiento.h" />
     <ClInclude Include="core\TipoPieza.h" />
     <ClInclude Include="game\Game.h" />
-    <ClInclude Include="render\ColorPieza.h" />
+    <ClInclude Include="render\GestorTexturas.h" />
+    <ClInclude Include="render\HUD.h" />
     <ClInclude Include="render\PiezaRenderer.h" />
+    <ClInclude Include="render\SpriteUtils.h" />
     <ClInclude Include="render\TableroRenderer.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />

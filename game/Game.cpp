@@ -10,6 +10,10 @@ Game::Game()
     piezaActual.setPosicion(0, (BOARD_COLS / 2) - 2);
     historial.establecerEstadoInicial(piezaActual);
     programarEventosIniciales();
+
+    if (!fuente.loadFromFile("assets/let.ttf")) {
+        printf("No se pudo cargar la fuente assets/let.ttf\n");
+    }
 }
 
 void Game::programarEventosIniciales() {
@@ -41,19 +45,39 @@ void Game::generarNuevaPieza() {
     }
 }
 
-void Game::despuesDeFijar() {
-    if (piezaActual.esPiezaDorada()) {
-        int puntos = PUNTOS_BONUS_DORADA;
-        if (puntosDoblesActivos()) {
-            puntos *= 2;
-        }
-        puntaje += puntos;
+int Game::calcularPuntosPorLineas(int cantidadLineas) const {
+    switch (cantidadLineas) {
+    case 1: return PUNTOS_1_LINEA;
+    case 2: return PUNTOS_2_LINEAS;
+    case 3: return PUNTOS_3_LINEAS;
+    case 4: return PUNTOS_4_LINEAS;
+    default: return 0; 
     }
-    else if (piezaActual.esPiezaBomba()) {
+}
+
+void Game::despuesDeFijar() {
+    bool eraDorada = piezaActual.esPiezaDorada();
+
+    if (piezaActual.esPiezaBomba()) {
         tablero.eliminarCeldasDeTipo(piezaActual.getTipo());
     }
 
-    tablero.limpiarLineasCompletas();
+    int lineasLimpiadas = tablero.limpiarLineasCompletas();
+
+    if (lineasLimpiadas > 0) {
+        int puntos = calcularPuntosPorLineas(lineasLimpiadas);
+
+        if (eraDorada) {
+            puntos += PUNTOS_BONUS_DORADA;
+        }
+
+        if (puntosDoblesActivos()) {
+            puntos *= 2;
+        }
+
+        puntaje += puntos;
+    }
+
     historial.registrarMovimiento(TipoMovimiento::COLOCAR, piezaActual, &tablero);
     procesarEventosProgramados();
     generarNuevaPieza();
@@ -221,6 +245,7 @@ void Game::actualizar() {
 }
 
 void Game::dibujar(sf::RenderWindow& ventana) {
-    tableroRenderer.dibujar(ventana, tablero);
-    piezaRenderer.dibujar(ventana, piezaActual);
+    tableroRenderer.dibujar(ventana, tablero, texturas);
+    piezaRenderer.dibujar(ventana, piezaActual, texturas);
+    hud.dibujar(ventana, fuente, colaPiezas, pilaHold, puntaje, puntosDoblesActivos(), texturas);
 }

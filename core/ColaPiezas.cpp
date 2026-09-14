@@ -1,9 +1,8 @@
 #include "ColaPiezas.h"
+#include "../config/Constants.h"
 #include <cstdlib>
 #include <ctime>
 
-const int TAMANO_BOLSA = 7;
-const int MINIMO_EN_COLA = 7;
 
 ColaPiezas::ColaPiezas() : inicio(nullptr), final(nullptr), cantidadActual(0) {
     srand(static_cast<unsigned int>(time(nullptr)));
@@ -36,19 +35,19 @@ void ColaPiezas::encolar(TipoPieza v) {
 }
 
 void ColaPiezas::generarYEncolarBolsa() {
-    TipoPieza bolsa[TAMANO_BOLSA] = {
+    TipoPieza bolsa[CANTIDAD_TIPOS_PIEZA] = {
         TipoPieza::I, TipoPieza::O, TipoPieza::T,
         TipoPieza::S, TipoPieza::Z, TipoPieza::J, TipoPieza::L
     };
 
-    for (int i = TAMANO_BOLSA - 1; i > 0; i--) {
+    for (int i = CANTIDAD_TIPOS_PIEZA - 1; i > 0; i--) {
         int j = rand() % (i + 1);
         TipoPieza temp = bolsa[i];
         bolsa[i] = bolsa[j];
         bolsa[j] = temp;
     }
 
-    for (int i = 0; i < TAMANO_BOLSA; i++) {
+    for (int i = 0; i < CANTIDAD_TIPOS_PIEZA; i++) {
         encolar(bolsa[i]);
     }
 }

@@ -11,6 +11,8 @@
 #include "../core/Colision.h"
 #include "../render/TableroRenderer.h"
 #include "../render/PiezaRenderer.h"
+#include "../render/HUD.h"
+#include "../render/GestorTexturas.h"
 
 class Game {
 public:
@@ -30,6 +32,10 @@ private:
 
     TableroRenderer tableroRenderer;
     PiezaRenderer piezaRenderer;
+    HUD hud;
+    sf::Font fuente;
+
+    GestorTexturas texturas;
 
     sf::Clock relojCaida;
     sf::Clock relojRetrasoMovimiento;
@@ -55,4 +61,5 @@ private:
     void aplicarEfectoEvento(TipoEvento tipo);
     void programarEventosIniciales();
     bool puntosDoblesActivos() const;
+    int calcularPuntosPorLineas(int cantidadLineas) const;
 };

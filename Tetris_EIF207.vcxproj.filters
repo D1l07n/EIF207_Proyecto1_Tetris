@@ -63,6 +63,12 @@
     <ClCompile Include="game\Game.cpp">
       <Filter>game</Filter>
     </ClCompile>
+    <ClCompile Include="render\HUD.cpp">
+      <Filter>render</Filter>
+    </ClCompile>
+    <ClCompile Include="render\GestorTexturas.cpp">
+      <Filter>render</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="config\Constants.h">
@@ -104,14 +110,20 @@
     <ClInclude Include="render\TableroRenderer.h">
       <Filter>render</Filter>
     </ClInclude>
-    <ClInclude Include="render\ColorPieza.h">
-      <Filter>render</Filter>
-    </ClInclude>
     <ClInclude Include="render\PiezaRenderer.h">
       <Filter>render</Filter>
     </ClInclude>
     <ClInclude Include="game\Game.h">
       <Filter>game</Filter>
+    </ClInclude>
+    <ClInclude Include="render\HUD.h">
+      <Filter>render</Filter>
+    </ClInclude>
+    <ClInclude Include="render\GestorTexturas.h">
+      <Filter>render</Filter>
+    </ClInclude>
+    <ClInclude Include="render\SpriteUtils.h">
+      <Filter>render</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>
