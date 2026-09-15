@@ -69,6 +69,12 @@
     <ClCompile Include="render\GestorTexturas.cpp">
       <Filter>render</Filter>
     </ClCompile>
+    <ClCompile Include="core\TablaPuntajes.cpp">
+      <Filter>core</Filter>
+    </ClCompile>
+    <ClCompile Include="render\PantallasRenderer.cpp">
+      <Filter>render</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="config\Constants.h">
@@ -123,6 +129,18 @@
       <Filter>render</Filter>
     </ClInclude>
     <ClInclude Include="render\SpriteUtils.h">
+      <Filter>render</Filter>
+    </ClInclude>
+    <ClInclude Include="core\RegistroPuntaje.h">
+      <Filter>core</Filter>
+    </ClInclude>
+    <ClInclude Include="core\TablaPuntajes.h">
+      <Filter>core</Filter>
+    </ClInclude>
+    <ClInclude Include="game\EstadoJuego.h">
+      <Filter>game</Filter>
+    </ClInclude>
+    <ClInclude Include="render\PantallasRenderer.h">
       <Filter>render</Filter>
     </ClInclude>
   </ItemGroup>

@@ -21,6 +21,13 @@ bool PilaHold::push(TipoPieza v) {
     return true;
 }
 
+void PilaHold::reiniciar() {
+    if (tope != nullptr) {
+        delete tope;
+        tope = nullptr;
+    }
+}
+
 TipoPieza PilaHold::pop() {
     Nodo* victima = tope;
     TipoPieza valor = victima->dato;
@@ -32,3 +39,4 @@ TipoPieza PilaHold::pop() {
 TipoPieza PilaHold::top() const {
     return tope->dato;
 }
+

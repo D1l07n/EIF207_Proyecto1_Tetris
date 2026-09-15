@@ -25,6 +25,12 @@ GestorTexturas::GestorTexturas() {
     if (!texturaFondoTablero.loadFromFile("assets/tablero.png")) {
         printf("No se pudo cargar assets/tablero.png\n");
     }
+    if (!texturaMenu.loadFromFile("assets/menu.png")) {
+        printf("No se pudo cargar assets/menu.png\n");
+    }
+    if (!texturaRanking.loadFromFile("assets/ranking.png")) {
+        printf("No se pudo cargar assets/ranking.png\n");
+    }
 }
 
 const sf::Texture& GestorTexturas::obtenerTextura(TipoPieza tipo) const {
@@ -37,4 +43,12 @@ const sf::Texture& GestorTexturas::obtenerTexturaDorada() const {
 
 const sf::Texture& GestorTexturas::obtenerTexturaCeldaVacia() const {
     return texturaFondoTablero;
+}
+
+const sf::Texture& GestorTexturas::obtenerTexturaMenu() const { 
+    return texturaMenu; 
+}
+
+const sf::Texture& GestorTexturas::obtenerTexturaRanking() const { 
+    return texturaRanking; 
 }

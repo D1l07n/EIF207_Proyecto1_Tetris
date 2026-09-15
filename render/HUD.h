@@ -15,7 +15,9 @@ public:
 private:
     void dibujarPiezaMini(sf::RenderWindow& ventana, TipoPieza tipo, float posX, float posY,
         int columnaMinima, const GestorTexturas& texturas) const;
+    
     int obtenerAnchoPieza(TipoPieza tipo, int& columnaMinima) const;
+
     void dibujarTexto(sf::RenderWindow& ventana, const sf::Font& fuente,
         const std::string& texto, float posX, float posY,
         sf::Color color = sf::Color::White) const;

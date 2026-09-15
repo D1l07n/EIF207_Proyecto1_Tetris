@@ -3,10 +3,14 @@
 ColaEventos::ColaEventos() : inicio(nullptr) {
 }
 
-ColaEventos::~ColaEventos() {
+void ColaEventos::vaciar() {
     while (!isEmpty()) {
         extraerProximo();
     }
+}
+
+ColaEventos::~ColaEventos() {
+    vaciar();
 }
 
 bool ColaEventos::isEmpty() const {

@@ -8,13 +8,14 @@ public:
 
     bool isEmpty() const;
 
-   
     bool push(TipoPieza v);
+
+    void reiniciar();
 
     TipoPieza pop();
 
     TipoPieza top() const;
-
+    
 private:
     struct Nodo {
         TipoPieza dato;

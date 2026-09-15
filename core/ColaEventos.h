@@ -8,11 +8,11 @@ public:
 
     bool isEmpty() const;
 
-   
     void insertar(TipoEvento tipo, float tiempoDisparo);
 
-    
     bool hayEventoListo(float tiempoActual) const;
+
+    void vaciar();
 
     TipoEvento extraerProximo();
 

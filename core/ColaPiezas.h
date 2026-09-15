@@ -8,6 +8,7 @@ public:
 
     TipoPieza desencolar();
     TipoPieza verEnPosicion(int posicion) const;
+    void reiniciar();
     bool isEmpty() const;
 
 private:
@@ -23,4 +24,5 @@ private:
 
     void encolar(TipoPieza v);
     void generarYEncolarBolsa();
+    void vaciarNodos();
 };

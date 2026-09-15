@@ -142,7 +142,23 @@ bool ListaDobleReplay::rehacer(Pieza& piezaActual, Tablero& tablero) {
     return true;
 }
 
-void ListaDobleReplay::irAlPrimero() {
+void ListaDobleReplay::irAlPrimero(Pieza& piezaActual, Tablero& tablero) {
+    tablero.reiniciar();
+
+    Pieza reconstruida(tipoPiezaInicial);
+    reconstruida.setPosicion(filaInicial, columnaInicial);
+    for (int i = 0; i < orientacionInicial; i++) {
+        reconstruida.rotar();
+    }
+    piezaActual = reconstruida;
+
+    actual = nullptr;
+}
+
+void ListaDobleReplay::reiniciar() {
+    eliminarDesde(inicio);
+    inicio = nullptr;
+    fin = nullptr;
     actual = nullptr;
 }
 

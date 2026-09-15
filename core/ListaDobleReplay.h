@@ -19,8 +19,10 @@ public:
    
     bool rehacer(Pieza& piezaActual, Tablero& tablero);
 
-  
-    void irAlPrimero();
+    void irAlPrimero(Pieza& piezaActual, Tablero& tablero); 
+
+    void reiniciar();
+
     bool avanzarReproduccion(Pieza& piezaActual, Tablero& tablero);
 
     bool hayHistorial() const;

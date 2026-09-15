@@ -10,10 +10,26 @@ ColaPiezas::ColaPiezas() : inicio(nullptr), final(nullptr), cantidadActual(0) {
     generarYEncolarBolsa();
 }
 
-ColaPiezas::~ColaPiezas() {
-    while (!isEmpty()) {
-        desencolar();
+void ColaPiezas::vaciarNodos() {
+    Nodo* actual = inicio;
+    while (actual != nullptr) {
+        Nodo* siguiente = actual->sig;
+        delete actual;
+        actual = siguiente;
     }
+    inicio = nullptr;
+    final = nullptr;
+    cantidadActual = 0;
+}
+
+ColaPiezas::~ColaPiezas() {
+    vaciarNodos(); 
+}
+
+void ColaPiezas::reiniciar() {
+    vaciarNodos();
+    generarYEncolarBolsa();
+    generarYEncolarBolsa();
 }
 
 bool ColaPiezas::isEmpty() const {
@@ -63,7 +79,7 @@ TipoPieza ColaPiezas::desencolar() {
     delete victima;
     cantidadActual--;   
 
-    if (cantidadActual < MINIMO_EN_COLA) {   // ya no hace falta recorrer nada
+    if (cantidadActual < MINIMO_EN_COLA) {   
         generarYEncolarBolsa();
     }
 
