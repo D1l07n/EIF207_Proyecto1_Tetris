@@ -145,6 +145,7 @@
     </Manifest>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="core\Benchmark.cpp" />
     <ClCompile Include="core\ColaEventos.cpp" />
     <ClCompile Include="core\ColaPiezas.cpp" />
     <ClCompile Include="core\Colision.cpp" />
@@ -163,6 +164,7 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="config\Constants.h" />
+    <ClInclude Include="core\Benchmark.h" />
     <ClInclude Include="core\ColaEventos.h" />
     <ClInclude Include="core\ColaPiezas.h" />
     <ClInclude Include="core\Colision.h" />

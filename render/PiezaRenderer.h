@@ -5,5 +5,5 @@
 
 class PiezaRenderer {
 public:
-    void dibujar(sf::RenderWindow& ventana, const Pieza& pieza, const GestorTexturas& texturas) const;
+	void dibujar(sf::RenderWindow& ventana, const Pieza& pieza, const GestorTexturas& texturas) const;
 };

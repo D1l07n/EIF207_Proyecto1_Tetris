@@ -5,7 +5,8 @@ Game::Game()
     : piezaActual(TipoPieza::T), estado(EstadoJuego::MENU), reproduccionAutomatica(true),
     esperandoRetrasoIzquierda(true), esperandoRetrasoDerecha(true),
     proximaPiezaDorada(false), proximaPiezaBomba(false),
-    finPuntosDobles(-1.0f), puntaje(0)
+    finPuntosDobles(-1.0f), puntaje(0),
+    animandoBomba(false), tipoBombaAnimando(TipoPieza::I), faseBlancaBomba(false)
 {
     if (!fuente.loadFromFile("assets/let.ttf")) {
         printf("No se pudo cargar la fuente assets/let.ttf\n");
@@ -20,6 +21,7 @@ void Game::reiniciarPartida() {
     pilaHold.reiniciar();
     historial.reiniciar();
     colaEventos.vaciar();
+    animandoBomba = false;
 
     piezaActual = Pieza(colaPiezas.desencolar());
     piezaActual.setPosicion(0, (BOARD_COLS / 2) - 2);
@@ -88,11 +90,20 @@ int Game::calcularPuntosPorLineas(int cantidadLineas) const {
 }
 
 void Game::despuesDeFijar() {
-    bool eraDorada = piezaActual.esPiezaDorada();
-
     if (piezaActual.esPiezaBomba()) {
-        tablero.eliminarCeldasDeTipo(piezaActual.getTipo());
+        animandoBomba = true;
+        tipoBombaAnimando = piezaActual.getTipo();
+        faseBlancaBomba = true;
+        relojAnimacionBomba.restart();
+        relojParpadeoBomba.restart();
+        return; 
     }
+
+    continuarFlujoTrasFijar();
+}
+
+void Game::continuarFlujoTrasFijar() {
+    bool eraDorada = piezaActual.esPiezaDorada();
 
     int lineasLimpiadas = tablero.limpiarLineasCompletas();
 
@@ -106,6 +117,19 @@ void Game::despuesDeFijar() {
     historial.registrarMovimiento(TipoMovimiento::COLOCAR, piezaActual, &tablero);
     procesarEventosProgramados();
     generarNuevaPieza();
+}
+
+void Game::actualizarAnimacionBomba() {
+    if (relojParpadeoBomba.getElapsedTime().asSeconds() >= INTERVALO_PARPADEO_BOMBA) {
+        faseBlancaBomba = !faseBlancaBomba;
+        relojParpadeoBomba.restart();
+    }
+
+    if (relojAnimacionBomba.getElapsedTime().asSeconds() >= DURACION_ANIMACION_BOMBA) {
+        tablero.eliminarCeldasDeTipo(tipoBombaAnimando);
+        animandoBomba = false;
+        continuarFlujoTrasFijar();
+    }
 }
 
 void Game::fijarYAvanzar() {
@@ -210,6 +234,17 @@ void Game::procesarEventosMenu(const sf::Event& evento, sf::RenderWindow& ventan
             ventana.close();
         }
     }
+    if (evento.type == sf::Event::KeyPressed) {
+        if (evento.key.code == sf::Keyboard::Enter) {
+            reiniciarPartida();
+        }
+        else if (evento.key.code == sf::Keyboard::T) {
+            estado = EstadoJuego::VIENDO_TABLA;
+        }
+        else if (evento.key.code == sf::Keyboard::B) {   // NUEVO
+            ejecutarBenchmark();
+        }
+    }
 }
 
 void Game::procesarEventosJugando(const sf::Event& evento) {
@@ -260,6 +295,10 @@ void Game::procesarEventosPausa(const sf::Event& evento) {
         relojCaida.restart();
         relojRetrasoMovimiento.restart();
         relojSoftDrop.restart();
+        if (animandoBomba) {
+            relojAnimacionBomba.restart();
+            relojParpadeoBomba.restart();
+        }
     }
     else if (evento.key.code == sf::Keyboard::Escape) {
         estado = EstadoJuego::MENU;
@@ -297,12 +336,19 @@ void Game::procesarEventosIngresoNombre(const sf::Event& evento) {
         }
     }
 }
-
 void Game::procesarEventosViendoTabla(const sf::Event& evento) {
     if (evento.type != sf::Event::KeyPressed) return;
 
     if (evento.key.code == sf::Keyboard::Escape) {
         estado = EstadoJuego::MENU;
+    }
+    else if (evento.key.code == sf::Keyboard::Num1) {
+        tablaPuntajes.setAlgoritmo(AlgoritmoOrdenamiento::INSERCION);
+        tablaPuntajes.reordenar();
+    }
+    else if (evento.key.code == sf::Keyboard::Num3) {
+        tablaPuntajes.setAlgoritmo(AlgoritmoOrdenamiento::MERGE);
+        tablaPuntajes.reordenar();
     }
 }
 
@@ -353,6 +399,11 @@ void Game::procesarEventos(sf::RenderWindow& ventana) {
 
 
 void Game::actualizarJugando() {
+
+    if (animandoBomba) {
+        actualizarAnimacionBomba();
+        return; // congela movimiento/gravedad mientras se ve el parpadeo
+    }
     procesarEventosProgramados();
 
     bool izquierda = sf::Keyboard::isKeyPressed(sf::Keyboard::Left) || sf::Keyboard::isKeyPressed(sf::Keyboard::A);
@@ -398,7 +449,7 @@ void Game::actualizar() {
     }
 }
 
-// ---------- DIBUJAR ----------
+
 
 void Game::dibujar(sf::RenderWindow& ventana) {
     switch (estado) {
@@ -407,14 +458,18 @@ void Game::dibujar(sf::RenderWindow& ventana) {
         break;
 
     case EstadoJuego::JUGANDO:
-        tableroRenderer.dibujar(ventana, tablero, texturas);
-        piezaRenderer.dibujar(ventana, piezaActual, texturas);
+        tableroRenderer.dibujar(ventana, tablero, texturas, animandoBomba, tipoBombaAnimando, faseBlancaBomba);
+        if (!animandoBomba) {
+            piezaRenderer.dibujar(ventana, piezaActual, texturas);
+        }
         hud.dibujar(ventana, fuente, colaPiezas, pilaHold, puntaje, puntosDoblesActivos(), texturas);
         break;
 
     case EstadoJuego::PAUSA:
-        tableroRenderer.dibujar(ventana, tablero, texturas);
-        piezaRenderer.dibujar(ventana, piezaActual, texturas);
+        tableroRenderer.dibujar(ventana, tablero, texturas, animandoBomba, tipoBombaAnimando, faseBlancaBomba);
+        if (!animandoBomba) {
+            piezaRenderer.dibujar(ventana, piezaActual, texturas);
+        }
         hud.dibujar(ventana, fuente, colaPiezas, pilaHold, puntaje, puntosDoblesActivos(), texturas);
         pantallas.dibujarPausa(ventana, fuente);
         break;
@@ -428,7 +483,7 @@ void Game::dibujar(sf::RenderWindow& ventana) {
         break;
 
     case EstadoJuego::VIENDO_TABLA:
-        pantallas.dibujarTablaPuntajes(ventana, fuente, tablaPuntajes, texturas);
+        pantallas.dibujarTablaPuntajes(ventana, fuente, tablaPuntajes, texturas, tablaPuntajes.nombreAlgoritmoActual());
         break;
 
     case EstadoJuego::REPRODUCIENDO_REPLAY:

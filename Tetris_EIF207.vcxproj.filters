@@ -75,6 +75,9 @@
     <ClCompile Include="render\PantallasRenderer.cpp">
       <Filter>render</Filter>
     </ClCompile>
+    <ClCompile Include="core\Benchmark.cpp">
+      <Filter>core</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="config\Constants.h">
@@ -142,6 +145,9 @@
     </ClInclude>
     <ClInclude Include="render\PantallasRenderer.h">
       <Filter>render</Filter>
+    </ClInclude>
+    <ClInclude Include="core\Benchmark.h">
+      <Filter>core</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

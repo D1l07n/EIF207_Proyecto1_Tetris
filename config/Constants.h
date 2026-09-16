@@ -65,3 +65,5 @@ constexpr float RANKING_Y_FILAS[10] = {
     368.0f, 422.0f, 472.0f, 525.0f, 575.0f
 };
 
+constexpr float DURACION_ANIMACION_BOMBA = 0.5f;
+constexpr float INTERVALO_PARPADEO_BOMBA = 0.1f;

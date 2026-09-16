@@ -17,6 +17,7 @@
 #include "../render/GestorTexturas.h"
 #include "../render/PantallasRenderer.h"
 #include "EstadoJuego.h"
+#include "../core/Benchmark.h"
 
 class Game {
 public:
@@ -58,6 +59,15 @@ private:
     bool proximaPiezaBomba;
     float finPuntosDobles;
     int puntaje;
+
+    bool animandoBomba;
+    TipoPieza tipoBombaAnimando;
+    bool faseBlancaBomba;
+    sf::Clock relojAnimacionBomba;
+    sf::Clock relojParpadeoBomba;
+
+    void continuarFlujoTrasFijar();
+    void actualizarAnimacionBomba();
 
     void reiniciarPartida();
     void finalizarPartida();

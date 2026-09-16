@@ -6,7 +6,8 @@
 int main() {
     sf::RenderWindow ventana(
         sf::VideoMode(WINDOW_WIDTH, WINDOW_HEIGHT),
-        WINDOW_TITLE
+        WINDOW_TITLE,
+        sf::Style::Titlebar | sf::Style::Close
     );
     ventana.setFramerateLimit(FPS);
 
