@@ -19,10 +19,6 @@ public:
 
     void reiniciar(); 
 
-    void invertirFilas();
-
-   
-
     void eliminarCeldasDeTipo(TipoPieza tipo);
 
     int limpiarLineasCompletas();

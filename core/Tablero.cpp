@@ -84,22 +84,6 @@ void Tablero::reiniciar() {
     }
 }
 
-void Tablero::invertirFilas() {
-    
-    Fila* ant = nullptr;
-    Fila* actualFila = inicio;
-
-    while (actualFila != nullptr) {
-        Fila* siguienteFila = actualFila->sig;
-        actualFila->sig = ant;
-        ant = actualFila;
-        actualFila = siguienteFila;
-    }
-
-    inicio = ant;
-}
-
-
 
 void Tablero::eliminarCeldasDeTipo(TipoPieza tipo) {
     int tipoComoInt = static_cast<int>(tipo);
