@@ -6,7 +6,7 @@ Proyecto I del curso **Estructuras de Datos (EIF207)** — Universidad Nacional 
 
 ## Descripción
 
-Una versión de Tetris hecha en C++ con SFML, usando estructura propia a mano sin librerías (Colas, Pilas, Listas Dobles y Simples).
+Una versión de Tetris hecha en C++ con SFML, usando estructura propia sin librerías, proyecto hecho a base de: Colas, Pilas, Listas Dobles y Simples.
 
 Esta versión de Tetris posee tres eventos simples pero cumplidores:
 - **Pieza dorada**: da +500 pts si y solo si al colocarse completa una línea.
