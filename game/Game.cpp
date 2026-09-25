@@ -212,15 +212,22 @@ bool Game::dentroDeBoton(float mouseX, float mouseY, float centroBotonY) const {
 }
 
 void Game::procesarEventosMenu(const sf::Event& evento, sf::RenderWindow& ventana) {
+
     if (evento.type == sf::Event::KeyPressed) {
+
         if (evento.key.code == sf::Keyboard::Enter) {
             reiniciarPartida();
         }
         else if (evento.key.code == sf::Keyboard::T) {
             estado = EstadoJuego::VIENDO_TABLA;
         }
+        else if (evento.key.code == sf::Keyboard::B) {
+            ejecutarBenchmark();
+        }
     }
-    else if (evento.type == sf::Event::MouseButtonPressed && evento.mouseButton.button == sf::Mouse::Left) {
+    else if (evento.type == sf::Event::MouseButtonPressed &&
+        evento.mouseButton.button == sf::Mouse::Left) {
+
         float mx = static_cast<float>(evento.mouseButton.x);
         float my = static_cast<float>(evento.mouseButton.y);
 
@@ -232,17 +239,6 @@ void Game::procesarEventosMenu(const sf::Event& evento, sf::RenderWindow& ventan
         }
         else if (dentroDeBoton(mx, my, BOTON_SALIR_CENTRO_Y)) {
             ventana.close();
-        }
-    }
-    if (evento.type == sf::Event::KeyPressed) {
-        if (evento.key.code == sf::Keyboard::Enter) {
-            reiniciarPartida();
-        }
-        else if (evento.key.code == sf::Keyboard::T) {
-            estado = EstadoJuego::VIENDO_TABLA;
-        }
-        else if (evento.key.code == sf::Keyboard::B) {   // NUEVO
-            ejecutarBenchmark();
         }
     }
 }
@@ -402,7 +398,7 @@ void Game::actualizarJugando() {
 
     if (animandoBomba) {
         actualizarAnimacionBomba();
-        return; // congela movimiento/gravedad mientras se ve el parpadeo
+        return; 
     }
     procesarEventosProgramados();
 
